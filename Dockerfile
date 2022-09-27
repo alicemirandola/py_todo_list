@@ -1,6 +1,6 @@
 # Use an official Python runtime as an image
 FROM python:3.9
-ENV fLASK_APP app
+ENV FLASK_APP app
 
 # The EXPOSE instruction indicates the ports on which a container # # will listen for connections
 # Since Flask apps listen to port 5000  by default, we expose it
@@ -22,10 +22,13 @@ RUN apt install libmariadb3 libmariadb-dev -y
 COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
-# Load secrects
+# Load secrets
 COPY .secrets_env_vars /app/.secrets_env_vars
-RUN . /app/.secrets_env_vars
+
+COPY templates /app/templates
 
 # Run app.py when the container launches
 COPY app.py /app
+# for debugging purposes only
+# CMD ["sleep", "600"]
 CMD ["flask", "run", "--host", "0.0.0.0"]

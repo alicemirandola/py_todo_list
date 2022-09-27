@@ -11,7 +11,8 @@ def index():
 
 @app.route('/add', methods=['POST'])
 def add():
-    return '<h1>{}</h1>' .format(request.form['todoitem'])
+    add_data(request.form['todoitem'], 0)
+    return '<h1>{}</h1>' .format(request.form['todoitem'],False)
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -27,7 +28,8 @@ try:
     connection = database.connect(
         user = username,
         password = password,
-        host = "127.0.0.1",
+        # host = "172.17.0.1", # from docker
+        host = "127.0.0.1", # from macos
         port = 3306,
         database = "todo_database"
 
